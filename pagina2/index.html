@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fffede ;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .message {
+            margin: 20px 0;
+        }
+        .recipient, .apology {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .recipient {
+            color: #0075c9;
+        }
+        .apology {
+            color: #ff6b6b;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        #recipient-input {
+            padding: 10px 15px;
+            border: 2px solid #0075c9;
+            border-radius: 30px;
+            font-size: 16px;
+            width: 250px;
+            margin: 10px 0;
+            outline: none;
+            transition: all 0.3s;
+        }
+        #recipient-input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(0, 117, 201, 0.3);
+        }
+        .spotify-links {
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .spotify-link {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .spotify-link:hover {
+            background-color: #1aa34a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .spotify-link:active {
+            transform: translateY(1px);
+        }
+        #blizzard-container {
+            width: 300px;
+            height: 450px;
+            margin: 0 auto;
+            position: relative;
+            overflow: visible;
+        }
+        .blizzard {
+            position: absolute;
+            width: 220px;
+            height: 350px;
+            left: 40px;
+            bottom: 0;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            animation: appear 1s forwards;
+        }
+        .cup {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 220px;
+            height: 280px;
+            background: linear-gradient(to bottom, #0075c9, #0062a7);
+            border-radius: 8px 8px 25px 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .blizzard-text {
+            position: absolute;
+            width: 180px;
+            height: 60px;
+            left: 20px;
+            top: 110px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            line-height: 60px;
+            background-color: #ff0000;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+            z-index: 10;
+            animation: pulse 2s infinite alternate;
+        }
+        .blizzard-subtext {
+            position: absolute;
+            width: 180px;
+            height: 30px;
+            left: 20px;
+            top: 175px;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            z-index: 10;
+        }
+        .flavor {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .icecream {
+            position: absolute;
+            bottom: 280px;
+            left: 10px;
+            width: 200px;
+            height: 50px;
+            background-color:   #fabfff  ;
+            border-radius: 90px 90px 15px 15px;
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: fillIcecream 2s 0.5s forwards, pulse 3s 2.5s infinite alternate;
+        }
+        .topping {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            background-image: radial-gradient(#fff4c4 3px, transparent 3px);
+            background-size: 20px 20px;
+            opacity: 0.7;
+            mix-blend-mode: multiply;
+        }
+        .spoon {
+            position: absolute;
+            top: -80px;
+            left:80%;
+            width: 30px;
+            height: 150px;
+            background-color: #ff3333;
+            border-radius: 6px;
+            transform: translateX(-50%) rotate(20deg); 
+            transform-origin: bottom center; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            z-index: 20;
+            opacity: 0;
+            animation: insertSpoon 1s 2.5s forwards;
+        }
+        .swirl {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            z-index: 5;
+            opacity: 0;
+        }
+                
+        @keyframes appear {
+            from { 
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes fillIcecream {
+            0% { 
+                height: 0; 
+                opacity: 0;
+            }
+            100% { 
+                height: 120px; 
+                opacity: 1;
+            }
+        }
+        
+        @keyframes insertSpoon {
+            0% {
+                top: -100px;
+                opacity: 0;
+            }
+            100% {
+                top: -25px;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes swirlFloat {
+            0% { 
+                transform: translate(0, 0) scale(1); 
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(var(--moveX), var(--moveY)) scale(0.5); 
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">
+            <div class="recipient">Para: <span id="recipient-name"> Vivi</span></div>
+            <div class="apology">Perdon =(</div>
+        </div>
+        
+        <div id="blizzard-container">
+            <div class="blizzard">
+                <div class="cup">
+                    <div class="blizzard-text">BLIZZARD</div>
+                    <div class="blizzard-subtext">The original</div>
+                </div>
+                <div class="icecream">
+                    <div class="topping"></div>
+                    <div class="spoon"></div>
+                </div>
+            </div>
+        </div>
+         
+        
+        <div class="spotify-links">
+            <a href="https://open.spotify.com/intl-es/track/0x7VKOWpEJflK0gvy3hTmk?si=5c18656e2d1243a4" target="_blank" class="spotify-link">Nací Para Amarte</a>
+            <a href="https://open.spotify.com/intl-es/track/02qcrVQ61nS94wWvLaiXGf?si=b32334f57d144358" target="_blank" class="spotify-link">Me Olvidé De Los 2</a>
+            <a href="https://open.spotify.com/intl-es/track/63bo7NDoWdMFXufhsYOxwG?si=e6f99bcc3d754826" target="_blank" class="spotify-link">Almost Is Never Enough</a>
+            <a href="https://open.spotify.com/intl-es/track/6XXKB32Om6WuXg3uEWwTob?si=73fed2d7c51b4c71" target="_blank" class="spotify-link">Imperfect for you</a>
+        </div>
+    </div>
+
+    <script>
+        function updateRecipient() {
+            const name = document.getElementById('recipient-input').value;
+            document.getElementById('recipient-name').textContent = name || "_________";
+        }
+        
+  
+        function createSwirls() {
+            const icecream = document.querySelector('.icecream');
+            const blizzard = document.querySelector('.blizzard');
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const swirl = document.createElement('div');
+                    swirl.classList.add('swirl');
+                    
+                    
+                    swirl.style.backgroundColor = Math.random() > 0.5 ? '#deafff' : '#fff9af';
+                    
+                    // Posición aleatoria dentro del helado
+                    const rect = icecream.getBoundingClientRect();
+                    const blizzardRect = blizzard.getBoundingClientRect();
+                    
+                    const left = Math.random() * (rect.width - 15) + (rect.left - blizzardRect.left);
+                    const top = Math.random() * (rect.height - 15) + (rect.top - blizzardRect.top);
+                    
+                    swirl.style.left = left + 'px';
+                    swirl.style.top = top + 'px';
+                    
+                    // Dirección del movimiento
+                    const moveX = (Math.random() - 0.5) * 100;
+                    const moveY = (Math.random() - 0.5) * 80 - 20; // Bias upward
+                    swirl.style.setProperty('--moveX', moveX + 'px');
+                    swirl.style.setProperty('--moveY', moveY + 'px');
+                    
+                
+                    swirl.style.animation = 'swirlFloat 3s forwards';
+                    
+                    blizzard.appendChild(swirl);
+                    
+                    
+                    setTimeout(() => {
+                        swirl.remove();
+                    }, 3000);
+                    
+                }, i * 200 + 3000); 
+            }
+        }
+        
+        
+        window.onload = function() {
+           
+            setInterval(createSwirls, 6000);
+            setTimeout(createSwirls, 3000); 
+        };
+    </script>
+</body>
+</html>
